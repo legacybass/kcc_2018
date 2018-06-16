@@ -12,7 +12,7 @@ class SingleBullet extends Phaser.Group {
 	}
 	
 	fire(source) {
-		if (this.game.time.time < this.nextFire) { return; }
+		if (this.game.time.time < this.nextFire) { return false; }
 
 		var x = source.x + 10;
 		var y = source.y + 10;
@@ -20,6 +20,8 @@ class SingleBullet extends Phaser.Group {
 		this.getFirstExists(false).fire({ x, y, angle: 0, speed: this.bulletSpeed });
 
 		this.nextFire = this.game.time.time + this.fireRate;
+
+		return true;
 	}
 }
 
@@ -38,7 +40,7 @@ class FrontAndBack extends Phaser.Group {
 	}
 	
 	fire(source) {
-		if (this.game.time.time < this.nextFire) { return; }
+		if (this.game.time.time < this.nextFire) { return false; }
 
 		var x = source.x + 10;
 		var y = source.y + 10;
@@ -47,6 +49,7 @@ class FrontAndBack extends Phaser.Group {
 		this.getFirstExists(false).fire({ x, y, angle: 180, speed: this.bulletSpeed });
 
 		this.nextFire = this.game.time.time + this.fireRate;
+		return true;
 	}
 }
 

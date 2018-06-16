@@ -20,6 +20,8 @@ class PhaserGame {
 		this.currentSwarm = 0;
 		
 		this.playing = true;
+
+		this.sounds= {};
 	}
 	
 	init() {
@@ -28,6 +30,9 @@ class PhaserGame {
 	}
 	
 	preload() {
+		this.load.audio('level1theme', ['/sounds/1.ogg']);
+		this.load.audio('shoot1', ['/sounds/shoot1.wav']);
+
 		this.load.image('background', '/images/layer8.png');
 		this.load.image('midground', '/images/layer4.png');
 		this.load.image('foreground', '/images/layer3.png');
@@ -93,6 +98,15 @@ class PhaserGame {
 
 		var changeKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 		changeKey.onDown.add(this.nextWeapon, this);
+
+		this.theme = this.sound.add('level1theme');
+		this.theme.loop = true;
+		this.theme.volume = 0.2;
+		this.theme.play();
+
+		this.sounds.shoot = this.sound.add('shoot1');
+		this.sounds.shoot.volume = 0.5;
+		this.sounds.shoot.loop = false;
 	}
 	
 	nextWeapon() {
@@ -161,7 +175,9 @@ class PhaserGame {
 
 			if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 			{
-				this.weapons[this.currentWeapon].fire(this.player);
+				if(this.weapons[this.currentWeapon].fire(this.player)) {
+					this.sounds.shoot.play();
+				}
 			}
 		}
 		else {
